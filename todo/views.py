@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Todo
+from .forms import TodoForm
 
 
 def todo_list(request):
@@ -19,3 +20,12 @@ def todo_detail(request, id):
 		"todo": todo
 	}
 	return render(request, "todo_detail.html", context)
+
+
+def todo_create(request):
+	form = TodoForm(request.POST or None)
+	if form.is_valid():
+		form.save()
+	context = {"form": form}
+	return render(request, "todo_create.html", context)
+	
